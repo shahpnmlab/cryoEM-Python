@@ -55,7 +55,7 @@ if len(origin_x)==len(origin_y)==len(origin_z):
     xyz=np.hstack((xy,z))
     subprocess.run(['rm', 'temp.txt'])
 elif len(origin_x)!=len(origin_y)!=len(origin_z):
-    print("Your input file is erroneous, have you checked if you length of X==Y==Z?")   
+    print("Your input file is erroneous, have you checked if length of X==Y==Z?")   
 
 #Save txt as input for point2model
 np.savetxt('temp.txt',xyz,delimiter=' ',fmt='%-5i')
