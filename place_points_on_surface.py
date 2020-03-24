@@ -4,7 +4,8 @@ whose center is defined by marking the center of the sphere in IMOD and saving i
 mod file. In writing this script I used CR Drost's response to the question 
 of how do you evenly place points on the surface of sphere?
 (https://stackoverflow.com/questions/9600801/evenly-distributing-n-points-on-a-sphere)
-Shortly after commiting to write this script, I found that:
+
+Shortly after commiting to writing this script, I found that:
 a. this wasnt the specific tool I needed for my use case.
 b. John Heumann (IMOD author) has already written a similar utility called seedSpikes 
 and SpikeInit. I recommend that you give those utils a try. See here for more info
