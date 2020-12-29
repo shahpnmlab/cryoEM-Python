@@ -6,15 +6,7 @@ import os
 import numpy as np
 import pandas as pd
 
-"""
-fileIn = sys.argv[1]
-"""
-
-
-def readMdoc(fileIn):
-    fn = open(fileIn,"r")
-    return(fn)
-
+# Functions
 def getFrames(fileIn):
     with open(fileIn,"r") as fn:
         x = [line for line in fn if 'SubFramePath' in line]
@@ -64,11 +56,14 @@ df = df.apply(pd.to_numeric, errors='ignore')
 # Sort data based on tilt angle which is lowest to highest be default
 df=df.sort_values(by=['StageAngle'])
 
-# get 
+# Create a sorted list 
 sorted_frame_list=df['Name'].to_list()
 
+# Select frames based on the start and end indicies. Python indexes from zero,
+# therefore, the +1.
 selected_frame_list=sorted_frame_list[start+1:end+1]
 
+# Input output jazz
 src_frame_dir=os.getcwd() + '/' + src_frame_dir_name
 dest_frame_dir_name=os.getcwd()+'/selectedFrames'
 
