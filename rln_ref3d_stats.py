@@ -1,8 +1,8 @@
 import glob
 import os
-import pandas as pd
 from termcolor import colored
 from itertools import islice
+from tabulate import tabulate
 
 relion_dir = os.getcwd()
 refine_3d_dir = os.path.join(relion_dir, "Refine3D")
@@ -15,7 +15,7 @@ for x in a:
         print(colored(x,'cyan'))
 
 
-job_name = input("Enter job folder name: ")
+job_name = "job002"
 job_dir = os.path.join(refine_3d_dir, job_name)
 run_out = os.path.join(job_dir,"run.out")
 
@@ -82,16 +82,13 @@ for model_star_file in model_star_files:
     accuracy_translations.append(at)
     estimated_resolution.append(er)
 
-stats = pd.DataFrame(
-{"Iteration": pd.Series(iteration),
- "Resolution": pd.Series(estimated_resolution),
- "Angular_accuracy": pd.Series(accuracy_rotations),
- "Angular_step": pd.Series(angular_step),
- "Translation_accuracy":pd.Series(accuracy_translations),
- "Local_Searches": pd.Series(local_searches)}
-)
-
-print(stats.to_string(index=False))
+print(tabulate(
+	{"Iteration": iteration, 
+	"Resolution": estimated_resolution, 
+	"AngularAccuracy": accuracy_rotations, 
+	"AngularStep": angular_step, 
+	"TranslationAccuracy(A)":accuracy_translations, 
+	"LocalSearches": local_searches}, headers="keys"))
 
 with open(run_out,"r") as f_in:
     for lines in f_in:
@@ -99,5 +96,3 @@ with open(run_out,"r") as f_in:
             print("\n")
             print("Refinement has converged.\n")
             print(lines)
-
-
