@@ -1,19 +1,27 @@
-#!/bin/env python3
-PATH = "/path/to/folder" # Change this.
-PATH += "/"
-mrc_files = glob.glob(PATH + "*.mrc")
-xml_files = glob.glob(PATH + "*.xml")
+import os
+import glob
+
+from pathlib import Path
+input_dir = "/path/to/frames/" # Change this based.
+
+path_object = Path(input_dir)
+
+if path_object.is_dir() is False:
+     raise ValueError(f"Folder {path_object} does not exist.")
+
+mrc_files = list(path_object.glob("*.mrc"))
+xml_files = list(path_object.glob("*.xml"))
 
 renamed_mrc_files = []
-for files in mrc_files:
-    files = files.replace("[", "_")
-    files = files.replace("]", "")
+for m_file in mrc_files:
+    m_file = m_file.replace("[", "_")
+    m_file = m_file.replace("]", "")
     renamed_mrc_files.append(files)
 
 renamed_xml_files = []
-for x_files in xml_files:
-    x_files = x_files.replace("[", "_")
-    x_files = x_files.replace("]", "")
+for x_file in xml_files:
+    x_file = x_file.replace("[", "_")
+    x_file = x_file.replace("]", "")
     renamed_xml_files.append(x_files)
 
 print("REMOVING BRACKETS!")
