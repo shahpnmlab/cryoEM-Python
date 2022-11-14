@@ -1,39 +1,7 @@
-import sys
-import starfile
-import numpy as np
-
-
-from scipy.spatial.transform import Rotation as R
-
-
-
-def get_coords(star_file):
-    df2 = {}
-    xyz_headings = [f'rlnCoordinate{axis}' for axis in "XYZ"]
-    df = starfile.read(star_file)
-    df =  df['optics'].merge(df['particles'])
-    angpix = df['rlnImagePixelSize'].unique()
-    tomo_list = df['rlnMicrographName'].unique().tolist()
-    for tomo in tomo_list:
-        a = df[df['rlnMicrographName'] == tomo]
-        if len(a) > 20:
-            xyz = a[xyz_headings].to_numpy()
-            df2[tomo] = xyz
-    return angpix, df2
-
-def rotate_coords(arr, angle, axis):
-    if axis == "X" or axis == "x":
-        r = R.from_rotvec(angle * np.array([1,0,0]), degrees=True)
-        xyz = r.apply(arr)
-    if axis == "Y" or axis == "y":
-        r = R.from_rotvec(angle * np.array([0,1,0]), degrees=True)
-        xyz = r.apply(arr)
-    if axis == "Z" or axis == "z":
-        r = R.from_rotvec(angle * np.array([0,0,1]), degrees=True)
-        xyz = r.apply(arr)
-    return xyz
-
-#---------------------------------------------------------------------------#
+import starfile                                                                                                                                                                   import numpy as np                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    from scipy.spatial.transform import Rotation as R                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       def get_coords(star_file):                                                                                                                                                            df2 = {}                                                                                                                                                                          xyz_headings = [f'rlnCoordinate{axis}' for axis in "XYZ"]                                                                                                                         df = starfile.read(star_file)                                                                                                                                                     df =  df['optics'].merge(df['particles'])                                                                                                                                         angpix = df['rlnImagePixelSize'].unique()
+    tomo_list = df['rlnMicrographName'].unique().tolist()                                                                                                                             for tomo in tomo_list:
+        a = df[df['rlnMicrographName'] == tomo]                                                                                                                                           if len(a) > 20:
+            xyz = a[xyz_headings].to_numpy()                                                                                                                                                  df2[tomo] = xyz                                                                                                                                                           return angpix, df2                                                                                                                                                                                                                                                                                                                                              def rotate_coords(arr, angle, axis):                                                                                                                                                  if axis == "X" or axis == "x":                                                                                                                                                        r = R.from_rotvec(angle * np.array([1,0,0]), degrees=True)                                                                                                                        xyz = r.apply(arr)                                                                                                                                                            if axis == "Y" or axis == "y":                                                                                                                                                        r = R.from_rotvec(angle * np.array([0,1,0]), degrees=True)                                                                                                                        xyz = r.apply(arr)                                                                                                                                                            if axis == "Z" or axis == "z":                                                                                                                                                        r = R.from_rotvec(angle * np.array([0,0,1]), degrees=True)                                                                                                                        xyz = r.apply(arr)                                                                                                                                                            return xyz                                                                                                                                                                                                                                                                                                                                                      #---------------------------------------------------------------------------#
 if len(sys.argv) < 2 or sys.argv[1] == '-h' or sys.argv[1] == '--help':
     print("WHAT IT DOES:\n")
     print("The script makes a rather naive assumption that the particles are \n")
@@ -47,8 +15,8 @@ if len(sys.argv) < 2 or sys.argv[1] == '-h' or sys.argv[1] == '--help':
     print("EXAMPLE:\n")
     print("estimateTomoThickness.py particles.star 10.6 \n")
 else:
-file_name = sys.argv[1]
-pretilt = -(sys.argv[2])
+    file_name = sys.argv[1]
+    pretilt = -float((sys.argv[2]))
 
 apix, data = get_coords(file_name)
 for key, value in data.items():
